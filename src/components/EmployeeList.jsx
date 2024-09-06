@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './EmployeeList.css';
 import EditEmployeeForm from './EditEmployeeForm';
 
@@ -13,6 +13,7 @@ const EmployeeList = ({
   newEmployee
 }) => {
   const [editingEmployee, setEditingEmployee] = React.useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const handleEditClick = (employee) => {
     setEditingEmployee(employee);
@@ -23,13 +24,25 @@ const EmployeeList = ({
     setEditingEmployee(null);
   };
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const filteredEmployees = employees.filter(employee =>
+    Object.values(employee).some(value =>
+      String(value).toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+
   return (
     <div className='my-40 flex items-center justify-center flex-col'>
       <div className='flex items-center justify-between'>
         <input
-          className='bg-slate-200 outline-none rounded-lg px-2 py-2'
+          className='bg-slate-200 outline-none rounded-lg px-2 py-2 '
           placeholder='Search Text here...'
           type="search"
+          value={searchQuery}
+          onChange={handleSearchChange}
         />
         <button
           className='px-2 py-2 bg-orange-500 rounded-lg text-white font-semibold'
@@ -78,7 +91,7 @@ const EmployeeList = ({
           </tr>
         </thead>
         <tbody className='text-center'>
-          {employees.map(employee => (
+          {filteredEmployees.map(employee => (
             <tr key={employee.id}>
               <td>{employee.id}</td>
               <td>{employee.name}</td>
