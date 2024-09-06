@@ -96,7 +96,7 @@ const EmployeeList = ({
               <td>{employee.id}</td>
               <td>{employee.name}</td>
               <td>{employee.position}</td>
-              <td>${employee.salary.toLocaleString()}</td>
+              <td>Rs{employee.salary.toLocaleString()}</td>
               <td>{employee.phoneNumber}</td>
               <td>
                 <button
